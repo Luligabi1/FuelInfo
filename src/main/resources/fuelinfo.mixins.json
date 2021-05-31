@@ -4,10 +4,11 @@
   "package": "me.luligabi.fuelinfo.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "AbstractFurnaceScreenHandlerAccessor"
   ],
   "client": [
+    "AbstractFurnaceScreenHandlerAccessor",
     "AbstractFurnaceScreenMixin",
+    "BrewingStandScreenMixin",
     "HandledScreenAccessor"
   ],
   "injectors": {

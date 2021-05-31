@@ -6,9 +6,16 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(HandledScreen.class)
 public interface HandledScreenAccessor {
+
     @Accessor
     int getX();
 
     @Accessor
     int getY();
+
+    @Accessor
+    int getTitleX();
+
+    @Accessor
+    int getTitleY();
 }

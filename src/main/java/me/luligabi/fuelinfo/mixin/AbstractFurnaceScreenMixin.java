@@ -5,9 +5,7 @@ import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.screen.AbstractFurnaceScreenHandler;
-import net.minecraft.text.Style;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
+import net.minecraft.text.LiteralText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,7 +28,10 @@ public abstract class AbstractFurnaceScreenMixin {
         int inventoryX = ((HandledScreenAccessor) afs).getX();
         int inventoryY = ((HandledScreenAccessor) afs).getY();
 
-        //if((mouseX >= inventoryX+208 && inventoryX+224 <= mouseX) && (mouseY >= inventoryY+92 && inventoryY+108 <= mouseY)) {
+        //int inventoryX = (afs.width - ((HandledScreenAccessor) afs).getTitleX()) / 2;
+        //int inventoryY = (afs.height - ((HandledScreenAccessor) afs).getTitleY()) / 2;
+
+        //if((mouseX > inventoryX+208 && mouseX < inventoryX+224) && (mouseY > inventoryY+92 && mouseY < inventoryY+108)) {
 
         // This line calculates how many fuel ticks there are within already consumed items.
         int consumedFuelTicks = ((AbstractFurnaceScreenHandlerAccessor) afsh).getPropertyDelegate().get(0);
@@ -47,10 +48,11 @@ public abstract class AbstractFurnaceScreenMixin {
         if(fuelMap.containsKey(afsh.getSlot(1).getStack().getItem())) {
             toBeConsumedFuelTicks += fuelMap.get(afsh.getSlot(1).getStack().getItem()) * afsh.getSlot(1).getStack().getCount();
         }
+        afs.renderTooltip(matrices, new LiteralText(inventoryX + " " + inventoryY), mouseX, mouseY);
 
-            afs.renderTooltip(matrices, new TranslatableText("message.fuelinfo.furnace",
+            /*afs.renderTooltip(matrices, new TranslatableText("message.fuelinfo.furnace",
                     fuelTicksToItems(consumedFuelTicks) + fuelTicksToItems(toBeConsumedFuelTicks), consumedFuelTicks + toBeConsumedFuelTicks).setStyle(Style.EMPTY).formatted(Formatting.GRAY)
-                    , mouseX, mouseY);
+                    , mouseX, mouseY);*/
         //}
         callbackInfo.cancel();
     }
