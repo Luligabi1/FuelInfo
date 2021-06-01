@@ -8,8 +8,7 @@
   "client": [
     "AbstractFurnaceScreenHandlerAccessor",
     "AbstractFurnaceScreenMixin",
-    "BrewingStandScreenMixin",
-    "HandledScreenAccessor"
+    "BrewingStandScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
