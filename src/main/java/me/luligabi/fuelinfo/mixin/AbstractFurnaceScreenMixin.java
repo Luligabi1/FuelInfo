@@ -36,6 +36,7 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen {
         int inventoryX = this.x;
         int inventoryY = this.y;
 
+        // Check if player's mouse is hovering the "flame" icon between entry and fuel slots.
         if((mouseX >= inventoryX+56 && mouseX <= inventoryX+72) && (mouseY >= inventoryY+34 && mouseY <= inventoryY+50)) {
 
         // Calculates how many fuel ticks there are within already consumed items.
@@ -54,16 +55,11 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen {
             toBeConsumedFuelTicks += fuelMap.get(afsh.getSlot(1).getStack().getItem()) * afsh.getSlot(1).getStack().getCount();
         }
 
-            afs.renderTooltip(matrices, new TranslatableText("message.fuelinfo.furnace",
-                    fuelTicksToItems(consumedFuelTicks + toBeConsumedFuelTicks)).setStyle(Style.EMPTY).formatted(Formatting.GRAY)
-                    , mouseX, mouseY);
-
+        // Fuel Ticks are divided by 200 to get how many items can be smelt.
+        afs.renderTooltip(matrices, new TranslatableText("message.fuelinfo.furnace",
+          (consumedFuelTicks + toBeConsumedFuelTicks)/200).setStyle(Style.EMPTY).formatted(Formatting.GRAY)
+                , mouseX, mouseY);
         }
         callbackInfo.cancel();
-    }
-
-    // Converts fuel ticks to how many items can be smelt.
-    private int fuelTicksToItems(int fuelTicks) {
-        return fuelTicks/200;
     }
 }
