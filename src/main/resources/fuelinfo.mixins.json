@@ -2,9 +2,8 @@
   "required": true,
   "minVersion": "0.8",
   "package": "me.luligabi.fuelinfo.mixin",
-  "compatibilityLevel": "JAVA_16",
-  "mixins": [
-  ],
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
   "client": [
     "AbstractFurnaceScreenHandlerAccessor",
     "AbstractFurnaceScreenMixin",

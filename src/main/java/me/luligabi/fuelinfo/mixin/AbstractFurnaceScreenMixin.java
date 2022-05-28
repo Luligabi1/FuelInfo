@@ -7,10 +7,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.screen.AbstractFurnaceScreenHandler;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,9 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 
 @Mixin(AbstractFurnaceScreen.class)
-public abstract class AbstractFurnaceScreenMixin extends HandledScreen {
+public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractFurnaceScreenHandler> {
 
-    public AbstractFurnaceScreenMixin(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public AbstractFurnaceScreenMixin(AbstractFurnaceScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
@@ -30,8 +28,8 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen {
             at = @At("RETURN"),
             cancellable = true)
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
-        AbstractFurnaceScreen afs = ((AbstractFurnaceScreen) (Object) this);
-        AbstractFurnaceScreenHandler afsh = (((AbstractFurnaceScreenHandler) afs.getScreenHandler()));
+        AbstractFurnaceScreen<AbstractFurnaceScreenHandler> afs = ((AbstractFurnaceScreen<AbstractFurnaceScreenHandler>) (Object) this);
+        AbstractFurnaceScreenHandler afsh = afs.getScreenHandler();
 
         int inventoryX = this.x;
         int inventoryY = this.y;
@@ -56,7 +54,7 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen {
         }
 
         // Fuel Ticks are divided by 200 to get how many items can be smelt.
-        afs.renderTooltip(matrices, new TranslatableText("message.fuelinfo.furnace",
+        afs.renderTooltip(matrices, Text.translatable("message.fuelinfo.furnace",
           (consumedFuelTicks + toBeConsumedFuelTicks)/200).setStyle(Style.EMPTY).formatted(Formatting.GRAY)
                 , mouseX, mouseY);
         }

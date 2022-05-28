@@ -5,10 +5,8 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.BrewingStandScreenHandler;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,9 +14,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BrewingStandScreen.class)
-public abstract class BrewingStandScreenMixin extends HandledScreen {
+public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStandScreenHandler> {
 
-    public BrewingStandScreenMixin(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public BrewingStandScreenMixin(BrewingStandScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
@@ -33,7 +31,7 @@ public abstract class BrewingStandScreenMixin extends HandledScreen {
         int inventoryY = this.y;
 
         if((mouseX >= inventoryX+58 && mouseX <= inventoryX+78) && (mouseY >= inventoryY+42 && mouseY <= inventoryY+48)) {
-            bss.renderTooltip(matrices, new TranslatableText("message.fuelinfo.brewing_stand",
+            bss.renderTooltip(matrices, Text.translatable("message.fuelinfo.brewing_stand",
                     (bssh.getFuel() * 3) + (bssh.getSlot(4).getStack().getCount() * 20) * 3)
                     .setStyle(Style.EMPTY).formatted(Formatting.GRAY), mouseX, mouseY);
         }
