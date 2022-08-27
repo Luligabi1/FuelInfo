@@ -5,7 +5,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.BrewingStandScreenHandler;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,9 +19,7 @@ public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStand
         super(handler, inventory, title);
     }
 
-    @Inject(method = "render",
-            at = @At("RETURN"),
-            cancellable = true)
+    @Inject(method = "render", at = @At("TAIL"))
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
         BrewingStandScreen bss = ((BrewingStandScreen) (Object) this);
         BrewingStandScreenHandler bssh = bss.getScreenHandler();
@@ -33,8 +30,7 @@ public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStand
         if((mouseX >= inventoryX+58 && mouseX <= inventoryX+78) && (mouseY >= inventoryY+42 && mouseY <= inventoryY+48)) {
             bss.renderTooltip(matrices, Text.translatable("message.fuelinfo.brewing_stand",
                     (bssh.getFuel() * 3) + (bssh.getSlot(4).getStack().getCount() * 20) * 3)
-                    .setStyle(Style.EMPTY).formatted(Formatting.GRAY), mouseX, mouseY);
+                    .formatted(Formatting.GRAY), mouseX, mouseY);
         }
-        callbackInfo.cancel();
     }
 }

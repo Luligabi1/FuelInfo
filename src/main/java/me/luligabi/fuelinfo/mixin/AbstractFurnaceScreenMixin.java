@@ -7,7 +7,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.screen.AbstractFurnaceScreenHandler;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,9 +23,7 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
         super(handler, inventory, title);
     }
 
-    @Inject(method = "render",
-            at = @At("RETURN"),
-            cancellable = true)
+    @Inject(method = "render", at = @At("TAIL"))
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
         AbstractFurnaceScreen<AbstractFurnaceScreenHandler> afs = ((AbstractFurnaceScreen<AbstractFurnaceScreenHandler>) (Object) this);
         AbstractFurnaceScreenHandler afsh = afs.getScreenHandler();
@@ -55,9 +52,8 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
 
         // Fuel Ticks are divided by 200 to get how many items can be smelt.
         afs.renderTooltip(matrices, Text.translatable("message.fuelinfo.furnace",
-          (consumedFuelTicks + toBeConsumedFuelTicks)/200).setStyle(Style.EMPTY).formatted(Formatting.GRAY)
-                , mouseX, mouseY);
+          (consumedFuelTicks + toBeConsumedFuelTicks)/200).formatted(Formatting.GRAY),
+                mouseX, mouseY);
         }
-        callbackInfo.cancel();
     }
 }
