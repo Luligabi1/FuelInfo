@@ -1,7 +1,7 @@
 plugins {
     id 'fabric-loom' version '0.12-SNAPSHOT'
     id "com.matthewprenger.cursegradle" version '1.4.0'
-    id "com.modrinth.minotaur" version '2.2.0'
+    id "com.modrinth.minotaur" version '2.3.1'
     id 'maven-publish'
 }
 
@@ -18,7 +18,7 @@ def RELEASE_FILE = "${buildDir}/libs/${archivesBaseName}-${version}.jar"
 
 @SuppressWarnings('GrMethodMayBeStatic')
 def getChangeLog() {
-    return "- Updated to 1.19"
+    return ""
 }
 
 dependencies {
@@ -59,7 +59,7 @@ curseforge {
         id = project.curseforge_id
         changelog = getChangeLog()
         releaseType = "release"
-        addGameVersion "1.19-Snapshot" //project.minecraft_version
+        addGameVersion project.minecraft_version
         addGameVersion "Fabric"
 
         mainArtifact(file(RELEASE_FILE)) {
@@ -78,9 +78,6 @@ curseforge {
     }
 }
 
-
-import com.modrinth.minotaur.dependencies.ModDependency
-
 modrinth {
     if (ENV.MODRINTH_TOKEN) {
         token = ENV.MODRINTH_TOKEN
@@ -91,8 +88,8 @@ modrinth {
     gameVersions = [project.minecraft_version]
     loaders = ['fabric']
     versionType = "release"
-    dependencies = [
-            new ModDependency('P7dR8mSH', 'required'), // Fabric API
-    ]
     changelog = getChangeLog()
+    dependencies {
+        required.project("fabric-api")
+    }
 }
