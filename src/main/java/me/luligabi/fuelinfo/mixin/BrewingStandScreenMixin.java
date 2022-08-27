@@ -29,8 +29,8 @@ public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStand
 
         if((mouseX >= inventoryX+58 && mouseX <= inventoryX+78) && (mouseY >= inventoryY+42 && mouseY <= inventoryY+48)) {
             bss.renderTooltip(matrices, Text.translatable("message.fuelinfo.brewing_stand",
-                    (bssh.getFuel() * 3) + (bssh.getSlot(4).getStack().getCount() * 20) * 3)
-                    .formatted(Formatting.GRAY), mouseX, mouseY);
+                    (bssh.getFuel() * 3) + (bssh.getSlot(4).getStack().getCount() * 20) * 3),
+                    mouseX, mouseY);
         }
     }
 }

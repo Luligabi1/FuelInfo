@@ -1,4 +1,4 @@
 {
-  "message.fuelinfo.furnace": "This furnace can smelt %d items",
-  "message.fuelinfo.brewing_stand": "This Brewing Stand can produce %d potions"
+  "message.fuelinfo.furnace": "§7This furnace can smelt §e%d §7items",
+  "message.fuelinfo.brewing_stand": "§7This Brewing Stand can produce §e%d §7potions"
 }

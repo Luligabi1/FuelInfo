@@ -52,7 +52,7 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
 
         // Fuel Ticks are divided by 200 to get how many items can be smelt.
         afs.renderTooltip(matrices, Text.translatable("message.fuelinfo.furnace",
-          (consumedFuelTicks + toBeConsumedFuelTicks)/200).formatted(Formatting.GRAY),
+          (consumedFuelTicks + toBeConsumedFuelTicks)/200),
                 mouseX, mouseY);
         }
     }
