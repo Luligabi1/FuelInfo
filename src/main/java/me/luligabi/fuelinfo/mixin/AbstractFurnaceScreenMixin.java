@@ -1,6 +1,7 @@
 package me.luligabi.fuelinfo.mixin;
 
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -51,9 +52,28 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
             }
 
             // consumed ticks are divided by 100, while unconsumed are by 200. don't ask me why it works like that lol
-            afs.renderTooltip(matrices, Text.translatable("message.fuelinfo.furnace",
-            (consumedFuelTicks/100) + (toBeConsumedFuelTicks/200)),
-                    mouseX, mouseY);
+            int i = (consumedFuelTicks/100) + (toBeConsumedFuelTicks/200);
+            if(i > 0) {
+                Text text;
+
+                if(!Screen.hasShiftDown()) {
+                    int stacks = i / 64;
+                    int items = i % 64;
+
+                    if (stacks > 0) {
+                        if (items > 0) {
+                            text = Text.translatable("message.fuelinfo.furnace.both", stacks, items);
+                        } else {
+                            text = Text.translatable("message.fuelinfo.furnace.stacks", stacks);
+                        }
+                    } else {
+                        text = Text.translatable("message.fuelinfo.furnace.items", items);
+                    }
+                } else { // Shift-action: Don't show stacks
+                    text = Text.translatable("message.fuelinfo.furnace.items", i);
+                }
+                afs.renderTooltip(matrices, text, mouseX, mouseY);
+            }
         }
     }
 }

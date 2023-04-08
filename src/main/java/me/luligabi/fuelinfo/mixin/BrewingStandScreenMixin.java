@@ -6,7 +6,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.BrewingStandScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,9 +27,12 @@ public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStand
         int inventoryY = this.y;
 
         if((mouseX >= inventoryX+58 && mouseX <= inventoryX+78) && (mouseY >= inventoryY+42 && mouseY <= inventoryY+48)) {
-            bss.renderTooltip(matrices, Text.translatable("message.fuelinfo.brewing_stand",
-                    (bssh.getFuel() * 3) + (bssh.getSlot(4).getStack().getCount() * 20) * 3),
-                    mouseX, mouseY);
+            int i = (bssh.getFuel() * 3) + (bssh.getSlot(4).getStack().getCount() * 20) * 3;
+            if(i > 0) {
+                bss.renderTooltip(matrices, Text.translatable(
+                    "message.fuelinfo.brewing_stand", i
+                ), mouseX, mouseY);
+            }
         }
     }
 }
