@@ -1,10 +1,11 @@
 package me.luligabi.fuelinfo.mixin;
 
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,7 +26,7 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         AbstractFurnaceScreen<AbstractFurnaceScreenHandler> afs = ((AbstractFurnaceScreen<AbstractFurnaceScreenHandler>) (Object) this);
         AbstractFurnaceScreenHandler afsh = afs.getScreenHandler();
 
@@ -72,7 +73,7 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
                 } else { // Shift-action: Don't show stacks
                     text = Text.translatable("message.fuelinfo.furnace.items", i);
                 }
-                afs.renderTooltip(matrices, text, mouseX, mouseY);
+                context.drawTooltip(MinecraftClient.getInstance().textRenderer, text, mouseX, mouseY);
             }
         }
     }

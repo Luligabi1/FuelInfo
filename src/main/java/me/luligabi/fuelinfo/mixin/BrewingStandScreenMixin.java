@@ -1,8 +1,9 @@
 package me.luligabi.fuelinfo.mixin;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.BrewingStandScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.BrewingStandScreenHandler;
 import net.minecraft.text.Text;
@@ -19,7 +20,7 @@ public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStand
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo callbackInfo) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         BrewingStandScreen bss = ((BrewingStandScreen) (Object) this);
         BrewingStandScreenHandler bssh = bss.getScreenHandler();
 
@@ -29,7 +30,7 @@ public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStand
         if((mouseX >= inventoryX+58 && mouseX <= inventoryX+78) && (mouseY >= inventoryY+42 && mouseY <= inventoryY+48)) {
             int i = (bssh.getFuel() * 3) + (bssh.getSlot(4).getStack().getCount() * 20) * 3;
             if(i > 0) {
-                bss.renderTooltip(matrices, Text.translatable(
+                context.drawTooltip(MinecraftClient.getInstance().textRenderer, Text.translatable(
                     "message.fuelinfo.brewing_stand", i
                 ), mouseX, mouseY);
             }
