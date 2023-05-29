@@ -18,7 +18,7 @@ def RELEASE_FILE = "${buildDir}/libs/${archivesBaseName}-${version}.jar"
 
 @SuppressWarnings('GrMethodMayBeStatic')
 def getChangeLog() {
-    return ""
+    return "- Updated to 1.19.4;\n- Items on furnace are now displayed as stacks and items; hold shift for old behavior."
 }
 
 dependencies {
