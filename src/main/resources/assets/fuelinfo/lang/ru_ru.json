@@ -3,5 +3,5 @@
   "message.fuelinfo.furnace.stacks": "§7Эта печь может переплавить §e%d §7стак(а/ов)",
   "message.fuelinfo.furnace.both": "§7Эта печь может переплавить §e%d §7стак(а/ов) и §e%d §7предмет(а/ов)",
 
-  "message.fuelinfo.brewing_stand": "§7This Brewing Stand can produce §e%d §7potions"
+  "message.fuelinfo.brewing_stand": "§7Эта зельеварка может сварить §e%d §7зелье(я/ий)"
 }
