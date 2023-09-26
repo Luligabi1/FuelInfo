@@ -9,9 +9,12 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.AbstractFurnaceScreenHandler;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -30,8 +33,8 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
         AbstractFurnaceScreen<AbstractFurnaceScreenHandler> afs = ((AbstractFurnaceScreen<AbstractFurnaceScreenHandler>) (Object) this);
         AbstractFurnaceScreenHandler afsh = afs.getScreenHandler();
 
-        int inventoryX = this.x;
-        int inventoryY = this.y;
+        int inventoryX = x;
+        int inventoryY = y;
 
         // Check if player's mouse is hovering the "flame" icon between entry and fuel slots.
         if((mouseX >= inventoryX+56 && mouseX <= inventoryX+72) && (mouseY >= inventoryY+34 && mouseY <= inventoryY+50)) {
@@ -40,8 +43,11 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
             int consumedFuelTicks = ((AbstractFurnaceScreenHandlerAccessor) afsh).getPropertyDelegate().get(0);
 
 
-            // Adds +1 item to the count if the furnace is burning still (avoids slight miscalculation)
-            if(afsh.isBurning()) consumedFuelTicks += 100;
+            // Add +1 item to the count if the furnace is burning still,
+            // accounting the item that is currently being smelted
+            if(afsh.isBurning()) {
+                consumedFuelTicks += fuelinfo_isSpecialFurnace(afsh) ? 100 : 200;
+            }
 
             // Get how many burning ticks there are within items in the fuel slot, but that haven't been consumed yet.
             Map<Item, Integer> fuelMap = AbstractFurnaceBlockEntity.createFuelTimeMap();
@@ -52,8 +58,13 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
                 toBeConsumedFuelTicks += fuelMap.get(slotStack.getItem()) * slotStack.getCount();
             }
 
-            // consumed ticks are divided by 100, while unconsumed are by 200. don't ask me why it works like that lol
-            int i = (consumedFuelTicks/100) + (toBeConsumedFuelTicks/200);
+            // combine fuel ticks
+            if (fuelinfo_isSpecialFurnace(afsh)) {
+                consumedFuelTicks /= 100;
+            } else {
+                consumedFuelTicks /= 200;
+            }
+            int i = (consumedFuelTicks) + (toBeConsumedFuelTicks/200);
             if(i > 0) {
                 Text text;
 
@@ -76,5 +87,10 @@ public abstract class AbstractFurnaceScreenMixin extends HandledScreen<AbstractF
                 context.drawTooltip(MinecraftClient.getInstance().textRenderer, text, mouseX, mouseY);
             }
         }
+    }
+
+    @Unique
+    private boolean fuelinfo_isSpecialFurnace(AbstractFurnaceScreenHandler screenHandler) {
+        return ((AbstractFurnaceScreenHandlerAccessor) screenHandler).getRecipeType() != RecipeType.SMELTING;
     }
 }

@@ -1,5 +1,7 @@
 package me.luligabi.fuelinfo.mixin;
 
+import net.minecraft.recipe.AbstractCookingRecipe;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.AbstractFurnaceScreenHandler;
 import net.minecraft.screen.PropertyDelegate;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,4 +12,7 @@ public interface AbstractFurnaceScreenHandlerAccessor {
 
     @Accessor
     PropertyDelegate getPropertyDelegate();
+
+    @Accessor
+    RecipeType<? extends AbstractCookingRecipe> getRecipeType();
 }
