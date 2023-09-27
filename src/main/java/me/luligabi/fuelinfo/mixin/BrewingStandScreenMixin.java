@@ -1,6 +1,6 @@
 package me.luligabi.fuelinfo.mixin;
 
-import net.minecraft.client.MinecraftClient;
+import me.luligabi.fuelinfo.hook.BrewingStandScreenHook;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.BrewingStandScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -20,20 +20,8 @@ public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStand
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        BrewingStandScreen bss = ((BrewingStandScreen) (Object) this);
-        BrewingStandScreenHandler bssh = bss.getScreenHandler();
-
-        int inventoryX = this.x;
-        int inventoryY = this.y;
-
-        if((mouseX >= inventoryX+58 && mouseX <= inventoryX+78) && (mouseY >= inventoryY+42 && mouseY <= inventoryY+48)) {
-            int i = (bssh.getFuel() * 3) + (bssh.getSlot(4).getStack().getCount() * 20) * 3;
-            if(i > 0) {
-                context.drawTooltip(MinecraftClient.getInstance().textRenderer, Text.translatable(
-                    "message.fuelinfo.brewing_stand", i
-                ), mouseX, mouseY);
-            }
-        }
+    public void render(DrawContext ctx, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        BrewingStandScreen screen = ((BrewingStandScreen) (Object) this);
+        BrewingStandScreenHook.render(screen, ctx, mouseX, mouseY);
     }
 }

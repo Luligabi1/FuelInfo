@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id 'fabric-loom' version '1.3-SNAPSHOT'
     id "com.matthewprenger.cursegradle" version '1.4.0'
     id "com.modrinth.minotaur" version '2.3.1'
     id 'maven-publish'
@@ -18,7 +18,7 @@ def RELEASE_FILE = "${buildDir}/libs/${archivesBaseName}-${version}.jar"
 
 @SuppressWarnings('GrMethodMayBeStatic')
 def getChangeLog() {
-    return "- Updated to 1.19.4;\n- Items on furnace are now displayed as stacks and items; hold shift for old behavior."
+    return "- Added fr_fr translation (Thanks, Calvineries!)"
 }
 
 dependencies {
@@ -67,7 +67,7 @@ curseforge {
         id = project.curseforge_id
         changelog = getChangeLog()
         releaseType = "release"
-        addGameVersion project.minecraft_version
+        addGameVersion "1.20-Snapshot"
         addGameVersion "Fabric"
 
         mainArtifact(file(RELEASE_FILE)) {
