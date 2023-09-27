@@ -11,8 +11,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.AbstractFurnaceScreenHandler;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.text.Text;
+import net.minecraft.util.Pair;
 
+import java.util.List;
 import java.util.Map;
 
 public class AbstractFurnaceScreenHook {
@@ -20,7 +23,9 @@ public class AbstractFurnaceScreenHook {
 
     public static void render(AbstractFurnaceScreen<AbstractFurnaceScreenHandler> screen, DrawContext ctx, int mouseX, int mouseY) {
         AbstractFurnaceScreenHandler screenHandler = screen.getScreenHandler();
-
+        PropertyDelegate propertyDelegate = ((AbstractFurnaceScreenHandlerAccessor) screenHandler).getPropertyDelegate();
+        
+        
         int x = ((HandledScreenAccessor) screen).getX();
         int y = ((HandledScreenAccessor) screen).getY();
 
@@ -28,7 +33,7 @@ public class AbstractFurnaceScreenHook {
         if((mouseX >= x+56 && mouseX <= x+72) && (mouseY >= y+34 && mouseY <= y+50)) {
 
             // Get how many fuel ticks there are within already consumed items
-            int consumedFuelTicks = ((AbstractFurnaceScreenHandlerAccessor) screenHandler).getPropertyDelegate().get(0);
+            int consumedFuelTicks = propertyDelegate.get(0);
 
 
             // Add +1 item to the count if the furnace is burning still,
@@ -41,9 +46,9 @@ public class AbstractFurnaceScreenHook {
             Map<Item, Integer> fuelMap = AbstractFurnaceBlockEntity.createFuelTimeMap();
             int toBeConsumedFuelTicks = 0;
 
-            ItemStack slotStack = screenHandler.getSlot(1).getStack();
-            if(fuelMap.containsKey(slotStack.getItem())) {
-                toBeConsumedFuelTicks += fuelMap.get(slotStack.getItem()) * slotStack.getCount();
+            ItemStack fuelStack = screenHandler.getSlot(1).getStack();
+            if(fuelMap.containsKey(fuelStack.getItem())) {
+                toBeConsumedFuelTicks += fuelMap.get(fuelStack.getItem()) * fuelStack.getCount();
             }
 
             // combine fuel ticks
@@ -54,25 +59,57 @@ public class AbstractFurnaceScreenHook {
             }
             int i = (consumedFuelTicks) + (toBeConsumedFuelTicks/200);
             if(i > 0) {
-                Text text;
 
+                // Fuel Info Logic
+                Text fuelText;
                 if(!Screen.hasShiftDown()) {
                     int stacks = i / 64;
                     int items = i % 64;
 
                     if (stacks > 0) {
                         if (items > 0) {
-                            text = Text.translatable("message.fuelinfo.furnace.both", stacks, items);
+                            fuelText = Text.translatable("message.fuelinfo.furnace.both", stacks, items);
                         } else {
-                            text = Text.translatable("message.fuelinfo.furnace.stacks", stacks);
+                            fuelText = Text.translatable("message.fuelinfo.furnace.stacks", stacks);
                         }
                     } else {
-                        text = Text.translatable("message.fuelinfo.furnace.items", items);
+                        fuelText = Text.translatable("message.fuelinfo.furnace.items", items);
                     }
                 } else { // Shift-action: Don't show stacks
-                    text = Text.translatable("message.fuelinfo.furnace.items", i);
+                    fuelText = Text.translatable("message.fuelinfo.furnace.items", i);
                 }
-                ctx.drawTooltip(MinecraftClient.getInstance().textRenderer, text, mouseX, mouseY);
+
+
+                // Timer Logic
+                Text timeText;
+                ItemStack inputStack = screenHandler.getSlot(0).getStack();
+
+                if(!inputStack.isEmpty()) {
+                    int currentStackTime = (propertyDelegate.get(3) - propertyDelegate.get(2));
+                    int remainingStacksTime = (propertyDelegate.get(3) * (inputStack.getCount() - 1));
+                    int time = (currentStackTime + remainingStacksTime) / 20;
+
+                    boolean isIndividualTime = Screen.hasShiftDown();
+                    Pair<String, String> timePair = getTime(isIndividualTime ? currentStackTime / 20 : time);
+
+                    timeText = Text.translatable(
+                        "message.fuelinfo.timer" + (isIndividualTime ? ".current" : ""),
+                            timePair.getLeft(), timePair.getRight()
+                    );
+                } else {
+                    timeText = Text.translatable(
+                        "message.fuelinfo.timer",
+                        "00", "00"
+                    );
+                }
+
+
+                List<Text> texts = List.of(
+                        fuelText,
+                        Text.of(""),
+                        timeText
+                );
+                ctx.drawTooltip(MinecraftClient.getInstance().textRenderer, texts, mouseX, mouseY);
             }
         }
     }
@@ -81,4 +118,12 @@ public class AbstractFurnaceScreenHook {
     private static boolean isSpecialFurnace(AbstractFurnaceScreenHandler screenHandler) {
         return ((AbstractFurnaceScreenHandlerAccessor) screenHandler).getRecipeType() != RecipeType.SMELTING;
     }
+
+    private static Pair<String, String> getTime(int time) {
+        String minutes = String.format("%02d", (time % 3600) / 60);
+        String seconds = String.format("%02d", time % 60);
+
+        return new Pair<>(minutes, seconds);
+    }
+
 }
