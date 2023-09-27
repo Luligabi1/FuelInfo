@@ -1,7 +1,6 @@
 package me.luligabi.fuelinfo.mixin;
 
 import me.luligabi.fuelinfo.hook.BrewingStandScreenHook;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.BrewingStandScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;

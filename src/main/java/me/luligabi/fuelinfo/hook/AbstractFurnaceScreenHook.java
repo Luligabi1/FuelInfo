@@ -2,6 +2,7 @@ package me.luligabi.fuelinfo.hook;
 
 import me.luligabi.fuelinfo.mixin.AbstractFurnaceScreenHandlerAccessor;
 import me.luligabi.fuelinfo.mixin.HandledScreenAccessor;
+import me.luligabi.fuelinfo.util.TimerUtil;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -15,7 +16,6 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 
-import java.util.List;
 import java.util.Map;
 
 public class AbstractFurnaceScreenHook {
@@ -30,7 +30,7 @@ public class AbstractFurnaceScreenHook {
         int y = ((HandledScreenAccessor) screen).getY();
 
         // Check if player's mouse is hovering the "flame" icon between entry and fuel slots.
-        if((mouseX >= x+56 && mouseX <= x+72) && (mouseY >= y+34 && mouseY <= y+50)) {
+        if((mouseX >= x+56 && mouseX <= x+72) && (mouseY >= y+35 && mouseY <= y+50)) {
 
             // Get how many fuel ticks there are within already consumed items
             int consumedFuelTicks = propertyDelegate.get(0);
@@ -80,50 +80,40 @@ public class AbstractFurnaceScreenHook {
                 }
 
 
-                // Timer Logic
-                Text timeText;
-                ItemStack inputStack = screenHandler.getSlot(0).getStack();
+                ctx.drawTooltip(MinecraftClient.getInstance().textRenderer, fuelText, mouseX, mouseY);
+            }
+        }
 
-                if(!inputStack.isEmpty()) {
-                    int currentStackTime = (propertyDelegate.get(3) - propertyDelegate.get(2));
-                    int remainingStacksTime = (propertyDelegate.get(3) * (inputStack.getCount() - 1));
-                    int time = (currentStackTime + remainingStacksTime) / 20;
+        if((mouseX >= x+80 && mouseX <= x+102) && (mouseY >= y+35 && mouseY <= y+50)) {
+            Text timeText;
+            ItemStack inputStack = screenHandler.getSlot(0).getStack();
 
-                    boolean isIndividualTime = Screen.hasShiftDown();
-                    Pair<String, String> timePair = getTime(isIndividualTime ? currentStackTime / 20 : time);
+            if(!inputStack.isEmpty()) {
+                int currentStackTime = (propertyDelegate.get(3) - propertyDelegate.get(2));
+                int remainingStacksTime = (propertyDelegate.get(3) * (inputStack.getCount() - 1));
+                int time = (currentStackTime + remainingStacksTime) / 20;
 
-                    timeText = Text.translatable(
+                boolean isIndividualTime = Screen.hasShiftDown();
+                Pair<String, String> timePair = TimerUtil.getTime(isIndividualTime ? currentStackTime / 20 : time);
+
+                timeText = Text.translatable(
                         "message.fuelinfo.timer" + (isIndividualTime ? ".current" : ""),
-                            timePair.getLeft(), timePair.getRight()
-                    );
-                } else {
-                    timeText = Text.translatable(
+                        timePair.getLeft(), timePair.getRight()
+                );
+            } else {
+                timeText = Text.translatable(
                         "message.fuelinfo.timer",
                         "00", "00"
-                    );
-                }
-
-
-                List<Text> texts = List.of(
-                        fuelText,
-                        Text.of(""),
-                        timeText
                 );
-                ctx.drawTooltip(MinecraftClient.getInstance().textRenderer, texts, mouseX, mouseY);
             }
+
+            ctx.drawTooltip(MinecraftClient.getInstance().textRenderer, timeText, mouseX, mouseY);
         }
     }
 
 
     private static boolean isSpecialFurnace(AbstractFurnaceScreenHandler screenHandler) {
         return ((AbstractFurnaceScreenHandlerAccessor) screenHandler).getRecipeType() != RecipeType.SMELTING;
-    }
-
-    private static Pair<String, String> getTime(int time) {
-        String minutes = String.format("%02d", (time % 3600) / 60);
-        String seconds = String.format("%02d", time % 60);
-
-        return new Pair<>(minutes, seconds);
     }
 
 }
