@@ -14,5 +14,4 @@ public class TimerUtil {
     public static String format(int time) {
         return String.format("%02d", time);
     }
-
 }

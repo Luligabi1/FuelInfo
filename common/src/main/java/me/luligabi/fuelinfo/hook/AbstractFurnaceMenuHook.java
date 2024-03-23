@@ -24,17 +24,13 @@ public class AbstractFurnaceMenuHook {
     public static void render(AbstractFurnaceScreen<AbstractFurnaceMenu> screen, GuiGraphics gui, int mouseX, int mouseY) {
         AbstractFurnaceMenu menu = screen.getMenu();
         ContainerData data = ((AbstractFurnaceMenuAccessor) menu).getData();
-        
-        
         int x = ((AbstractContainerScreenAccessor) screen).getX();
         int y = ((AbstractContainerScreenAccessor) screen).getY();
 
         // Check if player's mouse is hovering the "flame" icon between entry and fuel slots.
         if((mouseX >= x + 56 && mouseX <= x + 72) && (mouseY >= y + 35 && mouseY <= y + 50)) {
-
             // Get how many fuel ticks there are within already consumed items
             int consumedFuelTicks = data.get(0);
-
 
             // Add +1 item to the count if the furnace is burning still,
             // accounting the item that is currently being smelted
@@ -77,40 +73,34 @@ public class AbstractFurnaceMenuHook {
                 } else { // Shift-action: Don't show stacks
                     fuelText = Component.translatable("message.fuelinfo.furnace.items", i);
                 }
-
-
                 gui.renderTooltip(Minecraft.getInstance().font, fuelText, mouseX, mouseY);
             }
         }
 
-        if((mouseX >= x + 80 && mouseX <= x+  102) && (mouseY >= y + 35 && mouseY <= y + 50)) {
+        if((mouseX >= x + 80 && mouseX <= x + 102) && (mouseY >= y + 35 && mouseY <= y + 50)) {
             Component timeText;
             ItemStack inputStack = menu.getSlot(0).getItem();
 
             if(!inputStack.isEmpty()) {
-                int currentStackTime = (data.get(3) - data.get(2));
-                int remainingStacksTime = (data.get(3) * (inputStack.getCount() - 1));
-                int time = (currentStackTime + remainingStacksTime) / 20;
+                float tickrate = ((AbstractFurnaceMenuAccessor) menu).getLevel().tickRateManager().tickrate();
+
+                float currentStackTime = (data.get(3) - data.get(2));
+                float remainingStacksTime = (data.get(3) * (inputStack.getCount() - 1));
+                int time = Math.round((currentStackTime + remainingStacksTime) / tickrate);
 
                 boolean isIndividualTime = Screen.hasShiftDown();
-                Tuple<String, String> timePair = TimerUtil.getTime(isIndividualTime ? currentStackTime / 20 : time);
+                Tuple<String, String> timePair = TimerUtil.getTime(isIndividualTime ? Math.round(currentStackTime / tickrate) : time);
 
                 timeText = Component.translatable(
                         "message.fuelinfo.timer" + (isIndividualTime ? ".current" : ""),
                         timePair.getA(), timePair.getB()
                 );
-            } else {
-                timeText = Component.translatable(
-                        "message.fuelinfo.timer",
-                        "00", "00"
-                );
+                gui.renderTooltip(Minecraft.getInstance().font, timeText, mouseX, mouseY);
             }
-
-            gui.renderTooltip(Minecraft.getInstance().font, timeText, mouseX, mouseY);
         }
     }
 
-
+    // TODO: Investigate if there's better way to determine this on Neoforge
     private static boolean isSpecialFurnace(AbstractFurnaceMenu menu) {
         return ((AbstractFurnaceMenuAccessor) menu).getRecipeType() != RecipeType.SMELTING;
     }
