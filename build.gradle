@@ -58,9 +58,7 @@ allprojects {
 
 
 ext.getChangeLog = { ->
-    return "- Updated to 1.20.4;\n" +
-            "- Now available on Neoforge;\n" +
-            "- Add support for different tick rates."
+    return ""
 }
 
 publishMods {
@@ -72,13 +70,23 @@ publishMods {
         projectId = "489631"
         projectSlug = "fuel-info"
         minecraftVersions.add("${project.minecraft_version}")
-        announcementTitle = "Download from CurseForge"
     }
 
     def optionsModrinth = modrinthOptions {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = "J1ueTDcI"
         minecraftVersions.add("${project.minecraft_version}")
+    }
+
+
+    curseforge("curseforgeForge") {
+        from optionsCurseforge
+        modLoaders.add("neoforge")
+        file = project(":forge").tasks.named("remapJar").get().archiveFile
+        displayName = "${rootProject.mod_version} (NeoForge)"
+        version = "${rootProject.mod_version}-neoforge"
+
+        announcementTitle = "Download from CurseForge (NeoForge)"
     }
 
     curseforge("curseforgeFabric") {
@@ -93,14 +101,14 @@ publishMods {
         announcementTitle = "Download from CurseForge (Fabric)"
     }
 
-    curseforge("curseforgeForge") {
-        from optionsCurseforge
-        modLoaders.add("forge")
+    modrinth("modrinthForge") {
+        from optionsModrinth
+        modLoaders.add("neoforge")
         file = project(":forge").tasks.named("remapJar").get().archiveFile
         displayName = "${rootProject.mod_version} (NeoForge)"
         version = "${rootProject.mod_version}-neoforge"
 
-        announcementTitle = "Download from CurseForge (NeoForge)"
+        announcementTitle = "Download from Modrinth (NeoForge)"
     }
 
     modrinth("modrinthFabric") {
@@ -113,16 +121,6 @@ publishMods {
         requires("fabric-api")
 
         announcementTitle = "Download from Modrinth (Fabric)"
-    }
-
-    modrinth("modrinthForge") {
-        from optionsModrinth
-        modLoaders.add("forge")
-        file = project(":forge").tasks.named("remapJar").get().archiveFile
-        displayName = "${rootProject.mod_version} (NeoForge)"
-        version = "${rootProject.mod_version}-neoforge"
-
-        announcementTitle = "Download from Modrinth (NeoForge)"
     }
 
     discord {
