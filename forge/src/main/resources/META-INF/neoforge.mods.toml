@@ -10,7 +10,7 @@ issueTrackerURL="https://github.com/Luligabi1/FuelInfo/issues"
    logoFile="icon.png"
    authors="Luligabi1"
    credits="With translations by EvanHsieh0415, Rad233, JonnyBro and Calvineries."
-   description="Extra info on your fuels whenever you're smelting stuff."
+   description="Displays extended info on vanilla Furnaces (including its variants) and Brewing Stands, such as how many items can be smelted, time remaining and how many (sets of) potions can be brewed."
 [[mixins]]
    config="fuelinfo-common.mixins.json"
 [[dependencies.fuelinfo]]
