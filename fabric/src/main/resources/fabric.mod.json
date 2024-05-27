@@ -24,13 +24,18 @@
   "entrypoints": {
     "client": [
       "me.luligabi.fuelinfo.fabric.FuelInfoFabric"
+    ],
+    "modmenu": [
+      "me.luligabi.fuelinfo.fabric.ConfigScreenEntrypoint"
     ]
   },
   "mixins": [
     "fuelinfo-common.mixins.json"
   ],
   "depends": {
-    "minecraft": ">=1.20.4",
-    "fabric-api": "*"
+    "yet_another_config_lib_v3": "*",
+    "architectury": ">=12.1.2",
+    "fabric-api": "*",
+    "minecraft": ">=1.20.6"
   }
 }

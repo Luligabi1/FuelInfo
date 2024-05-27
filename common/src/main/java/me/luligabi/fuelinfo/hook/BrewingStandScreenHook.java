@@ -1,5 +1,6 @@
 package me.luligabi.fuelinfo.hook;
 
+import me.luligabi.fuelinfo.FuelInfo;
 import me.luligabi.fuelinfo.mixin.AbstractContainerScreenAccessor;
 import me.luligabi.fuelinfo.util.TimerUtil;
 import net.minecraft.client.Minecraft;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BrewingStandScreenHook { // TODO add config values
+public class BrewingStandScreenHook {
 
 
     private static final List<Component> COMPONENTS = new ArrayList<>();
@@ -25,8 +26,8 @@ public class BrewingStandScreenHook { // TODO add config values
         int y = ((AbstractContainerScreenAccessor) screen).getY();
 
         if((mouseX >= x + 58 && mouseX <= x + 78) && (mouseY >= y + 42 && mouseY <= y + 48)) {
-            addFuelData(menu, true);
-            addTimer(menu, level, false);
+            addFuelData(menu, FuelInfo.CONFIG.brewingStand.gauge.showFuelData);
+            addTimer(menu, level, FuelInfo.CONFIG.brewingStand.gauge.showTimer);
             if(!COMPONENTS.isEmpty()) {
                 gui.renderComponentTooltip(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
                 COMPONENTS.clear();
@@ -34,8 +35,8 @@ public class BrewingStandScreenHook { // TODO add config values
         }
 
         if((mouseX >= x + 98 && mouseX <= x + 104) && (mouseY >= y + 17 && mouseY <= y + 42)) {
-            addFuelData(menu, false);
-            addTimer(menu, level, true);
+            addFuelData(menu, FuelInfo.CONFIG.brewingStand.progressArrow.showFuelData);
+            addTimer(menu, level, FuelInfo.CONFIG.brewingStand.progressArrow.showTimer);
             if(!COMPONENTS.isEmpty()) {
                 gui.renderComponentTooltip(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
                 COMPONENTS.clear();

@@ -7,5 +7,21 @@
   "message.fuelinfo.brewing_stand.set": "§7Este Suporte de Poções pode produzir §e%d §fconjuntos §7de poções",
 
   "message.fuelinfo.timer": "%s:%s §7restantes",
-  "message.fuelinfo.timer.current": "%s:%s §7restantes para item atual"
+  "message.fuelinfo.timer.current": "%s:%s §7restantes para item atual",
+
+
+  "configOption.fuelinfo.showFuelData": "Mostrar dados de Combustíveis?",
+  "configOption.fuelinfo.showFuelData.desc": "Determina se os dados dos combustíveis devem ser mostrados aqui.",
+
+  "configOption.fuelinfo.showTimer": "Mostrar Timer?",
+  "configOption.fuelinfo.showTimer.desc": "Determina se o timer deve ser mostrado aqui.",
+
+  "configGroup.fuelinfo.flame": "Chama",
+  "configGroup.fuelinfo.flame.desc": "Escolha quais elementos devem aparecer quando o mouse é colocado sobre a chama de uma Fornalha.",
+
+  "configGroup.fuelinfo.gauge": "Medidor",
+  "configGroup.fuelinfo.gauge.desc": "Escolha quais elementos devem aparecer quando o mouse é colocado sobre o medidor de combustível de um Suporte de Poções.",
+
+  "configGroup.fuelinfo.progress_arrow": "Flecha",
+  "configGroup.fuelinfo.progress_arrow.desc": "Escolha quais elementos devem aparecer quando o mouse é colocado sobre de uma flecha."
 }

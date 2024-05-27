@@ -1,5 +1,6 @@
 package me.luligabi.fuelinfo.hook;
 
+import me.luligabi.fuelinfo.FuelInfo;
 import me.luligabi.fuelinfo.mixin.AbstractFurnaceMenuAccessor;
 import me.luligabi.fuelinfo.mixin.AbstractContainerScreenAccessor;
 import me.luligabi.fuelinfo.util.TimerUtil;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AbstractFurnaceMenuHook { // TODO add config values
+public class AbstractFurnaceMenuHook {
 
 
     private static final List<Component> COMPONENTS = new ArrayList<>();
@@ -32,16 +33,16 @@ public class AbstractFurnaceMenuHook { // TODO add config values
         int y = ((AbstractContainerScreenAccessor) screen).getY();
 
         if((mouseX >= x + 56 && mouseX <= x + 72) && (mouseY >= y + 35 && mouseY <= y + 50)) {
-            addFuelData(menu, data, true);
-            addTimer(menu, data, false);
+            addFuelData(menu, data, FuelInfo.CONFIG.furnace.flame.showFuelData);
+            addTimer(menu, data, FuelInfo.CONFIG.furnace.flame.showTimer);
             if(!COMPONENTS.isEmpty()) {
                 gui.renderComponentTooltip(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
                 COMPONENTS.clear();
             }
         }
         if((mouseX >= x + 80 && mouseX <= x + 102) && (mouseY >= y + 35 && mouseY <= y + 50)) {
-            addFuelData(menu, data, false);
-            addTimer(menu, data, true);
+            addFuelData(menu, data, FuelInfo.CONFIG.furnace.progressArrow.showFuelData);
+            addTimer(menu, data, FuelInfo.CONFIG.furnace.progressArrow.showTimer);
             if(!COMPONENTS.isEmpty()) {
                 gui.renderComponentTooltip(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
                 COMPONENTS.clear();

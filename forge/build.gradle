@@ -14,11 +14,22 @@ configurations {
     developmentNeoForge.extendsFrom common
 }
 
+repositories {
+    maven { url "https://thedarkcolour.github.io/KotlinForForge/" }
+}
+
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
-
+    modApi("dev.architectury:architectury-neoforge:${rootProject.architectury_version}")
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+
+
+    modRuntimeOnly("dev.isxander:yet-another-config-lib:${rootProject.yacl_version}-neoforge") { transitive false }
+    include("dev.isxander:yet-another-config-lib:${rootProject.yacl_version}-neoforge")
+    forgeRuntimeLibrary("org.quiltmc.parsers:json:0.3.0")
+    forgeRuntimeLibrary("org.quiltmc.parsers:gson:0.3.0")
+    modCompileOnly("thedarkcolour:kotlinforforge-neoforge:4.10.0")
 }
 
 processResources {

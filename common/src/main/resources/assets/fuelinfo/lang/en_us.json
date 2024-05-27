@@ -7,5 +7,21 @@
   "message.fuelinfo.brewing_stand.set": "§7This Brewing Stand can produce §e%d §fsets §7of potions",
 
   "message.fuelinfo.timer": "%s:%s §7remaining",
-  "message.fuelinfo.timer.current": "%s:%s §7remaining for current item"
+  "message.fuelinfo.timer.current": "%s:%s §7remaining for current item",
+
+
+  "configOption.fuelinfo.showFuelData": "Show Fuel Data?",
+  "configOption.fuelinfo.showFuelData.desc": "Whether or not fuel data should be displayed here.",
+
+  "configOption.fuelinfo.showTimer": "Show Timer?",
+  "configOption.fuelinfo.showTimer.desc": "Whether or not a timer should be displayed here.",
+
+  "configGroup.fuelinfo.flame": "Flame",
+  "configGroup.fuelinfo.flame.desc": "Customize which elements should be displayed when hovering a Furnace's flame.",
+
+  "configGroup.fuelinfo.gauge": "Gauge",
+  "configGroup.fuelinfo.gauge.desc": "Customize which elements should be displayed when hovering a Brewing Stand's fuel gauge.",
+
+  "configGroup.fuelinfo.progress_arrow": "Progress Arrow",
+  "configGroup.fuelinfo.progress_arrow.desc": "Customize which elements should be displayed when hovering a progress arrow."
 }

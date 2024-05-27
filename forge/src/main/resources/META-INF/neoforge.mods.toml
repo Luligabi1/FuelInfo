@@ -14,14 +14,26 @@ issueTrackerURL="https://github.com/Luligabi1/FuelInfo/issues"
 [[mixins]]
    config="fuelinfo-common.mixins.json"
 [[dependencies.fuelinfo]]
+   modId = "yet_another_config_lib_v3"
+   type = "required"
+   versionRange = "1.0" # any version
+   ordering = "NONE"
+   side = "CLIENT"
+[[dependencies.fuelinfo]]
+   modId = "architectury"
+   type = "required"
+   versionRange = "[12.1.2,)"
+   ordering = "NONE"
+   side = "CLIENT"
+[[dependencies.fuelinfo]]
    modId="neoforge"
    type="required"
-   versionRange="[20.4,)"
+   versionRange="[20.6,)"
    ordering="NONE"
    side="CLIENT"
 [[dependencies.fuelinfo]]
    modId="minecraft"
    type="required"
-   versionRange="[1.20.4,1.21)"
+   versionRange="[1.20.6,)"
    ordering="NONE"
    side="CLIENT"
