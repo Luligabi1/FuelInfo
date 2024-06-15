@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 public class FuelInfo {
 
 	public static ResourceLocation id(String id) {
-		return new ResourceLocation(MOD_ID, id);
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, id);
 	}
 
 	public static final String MOD_ID = "fuelinfo";
