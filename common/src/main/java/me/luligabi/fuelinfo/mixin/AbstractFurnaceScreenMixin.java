@@ -19,8 +19,8 @@ public abstract class AbstractFurnaceScreenMixin extends AbstractContainerScreen
         super(handler, inventory, title);
     }
 
-    @Inject(method = "render", at = @At("TAIL"))
-    public void render(GuiGraphics gui, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    @Inject(method = "renderBg", at = @At("TAIL"))
+    public void render(GuiGraphics gui, float delta, int mouseX, int mouseY, CallbackInfo ci) {
         AbstractFurnaceScreen<AbstractFurnaceMenu> screen = ((AbstractFurnaceScreen<AbstractFurnaceMenu>) (Object) this);
         AbstractFurnaceMenuHook.render(screen, gui, mouseX, mouseY);
     }

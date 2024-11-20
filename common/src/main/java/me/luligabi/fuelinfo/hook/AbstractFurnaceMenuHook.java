@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.FuelValues;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +64,11 @@ public class AbstractFurnaceMenuHook {
         }
 
         // Get how many burning ticks there are within items in the fuel slot, but that haven't been consumed yet
-        Map<Item, Integer> fuelMap = AbstractFurnaceBlockEntity.getFuel();
         int toBeConsumedFuelTicks = 0;
 
         ItemStack fuelStack = menu.getSlot(1).getItem();
-        if(fuelMap.containsKey(fuelStack.getItem())) {
-            toBeConsumedFuelTicks += fuelMap.get(fuelStack.getItem()) * fuelStack.getCount();
-        }
+        toBeConsumedFuelTicks += Minecraft.getInstance().level.fuelValues().burnDuration(fuelStack) * fuelStack.getCount();
+
 
         // Account for the fact special furnaces (i.e. Blast Furnace
         // and Smoker on vanilla) smelts stuff twice as fast
