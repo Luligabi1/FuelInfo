@@ -19,6 +19,7 @@ public abstract class AbstractFurnaceScreenMixin extends AbstractContainerScreen
         super(handler, inventory, title);
     }
 
+    @SuppressWarnings("unchecked")
     @Inject(method = "renderBg", at = @At("TAIL"))
     public void render(GuiGraphics gui, float delta, int mouseX, int mouseY, CallbackInfo ci) {
         AbstractFurnaceScreen<AbstractFurnaceMenu> screen = ((AbstractFurnaceScreen<AbstractFurnaceMenu>) (Object) this);

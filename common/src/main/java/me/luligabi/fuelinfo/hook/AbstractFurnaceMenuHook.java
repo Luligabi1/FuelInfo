@@ -37,7 +37,7 @@ public class AbstractFurnaceMenuHook {
             addFuelData(menu, data, FuelInfo.CONFIG.furnace.flame.showFuelData);
             addTimer(menu, data, FuelInfo.CONFIG.furnace.flame.showTimer);
             if(!COMPONENTS.isEmpty()) {
-                gui.renderComponentTooltip(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
+                gui.setComponentTooltipForNextFrame(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
                 COMPONENTS.clear();
             }
         }
@@ -45,7 +45,7 @@ public class AbstractFurnaceMenuHook {
             addFuelData(menu, data, FuelInfo.CONFIG.furnace.progressArrow.showFuelData);
             addTimer(menu, data, FuelInfo.CONFIG.furnace.progressArrow.showTimer);
             if(!COMPONENTS.isEmpty()) {
-                gui.renderComponentTooltip(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
+                gui.setComponentTooltipForNextFrame(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
                 COMPONENTS.clear();
             }
         }
@@ -81,7 +81,7 @@ public class AbstractFurnaceMenuHook {
         int i = (consumedFuelTicks) + (toBeConsumedFuelTicks / 200);
         if(i <= 0) return;
         Component fuelText;
-        if(!Screen.hasShiftDown()) {
+        if(!Minecraft.getInstance().hasShiftDown()) {
             int stacks = i / 64;
             int items = i % 64;
 
@@ -113,7 +113,7 @@ public class AbstractFurnaceMenuHook {
         float remainingStacksTime = (data.get(3) * (inputStack.getCount() - 1));
         int time = Math.round((currentStackTime + remainingStacksTime) / tickrate);
 
-        boolean isIndividualTime = Screen.hasShiftDown();
+        boolean isIndividualTime = Minecraft.getInstance().hasShiftDown();
         Tuple<String, String> timePair = TimerUtil.getTime(isIndividualTime ? Math.round(currentStackTime / tickrate) : time);
 
         timeText = Component.translatable(

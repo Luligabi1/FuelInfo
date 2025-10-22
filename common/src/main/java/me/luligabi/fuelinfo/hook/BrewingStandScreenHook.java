@@ -29,7 +29,7 @@ public class BrewingStandScreenHook {
             addFuelData(menu, FuelInfo.CONFIG.brewingStand.gauge.showFuelData);
             addTimer(menu, level, FuelInfo.CONFIG.brewingStand.gauge.showTimer);
             if(!COMPONENTS.isEmpty()) {
-                gui.renderComponentTooltip(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
+                gui.setComponentTooltipForNextFrame(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
                 COMPONENTS.clear();
             }
         }
@@ -38,7 +38,7 @@ public class BrewingStandScreenHook {
             addFuelData(menu, FuelInfo.CONFIG.brewingStand.progressArrow.showFuelData);
             addTimer(menu, level, FuelInfo.CONFIG.brewingStand.progressArrow.showTimer);
             if(!COMPONENTS.isEmpty()) {
-                gui.renderComponentTooltip(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
+                gui.setComponentTooltipForNextFrame(Minecraft.getInstance().font, COMPONENTS, mouseX, mouseY);
                 COMPONENTS.clear();
             }
         }
@@ -51,7 +51,7 @@ public class BrewingStandScreenHook {
         if(potionCount <= 0) return;
         Component countText;
 
-        if(Screen.hasShiftDown()) {
+        if(Minecraft.getInstance().hasShiftDown()) {
             countText = Component.translatable(
                 "message.fuelinfo.brewing_stand.set",
                 potionCount / 3
