@@ -1,7 +1,27 @@
 {
-  "message.fuelinfo.furnace.items": "§7Эта печь может переплавить §e%d §7предмет(а/ов)",
-  "message.fuelinfo.furnace.stacks": "§7Эта печь может переплавить §e%d §7стак(а/ов)",
-  "message.fuelinfo.furnace.both": "§7Эта печь может переплавить §e%d §7стак(а/ов) и §e%d §7предмет(а/ов)",
+  "message.fuelinfo.furnace.items": "§7Эта печь может переплавить §e%d §7предмет(ов)",
+  "message.fuelinfo.furnace.stacks": "§7Эта печь может переплавить §e%d §7стак(ов)",
+  "message.fuelinfo.furnace.both": "§7Эта печь может переплавить §e%d §7стак(ов) и §e%d §7предмет(ов)",
 
-  "message.fuelinfo.brewing_stand": "§7Эта зельеварка может сварить §e%d §7зелье(я/ий)"
+  "message.fuelinfo.brewing_stand": "§7Этот варочный стенд может произвести §e%d §7зелий",
+  "message.fuelinfo.brewing_stand.set": "§7Этот варочный стенд может произвести §e%d §fнабор(ов) §7зелий",
+
+  "message.fuelinfo.timer": "%s:%s §7осталось",
+  "message.fuelinfo.timer.current": "%s:%s §7осталось для текущего предмета",
+
+
+  "configOption.fuelinfo.showFuelData": "Показывать данные о топливе?",
+  "configOption.fuelinfo.showFuelData.desc": "Следует ли отображать данные о топливе здесь.",
+
+  "configOption.fuelinfo.showTimer": "Показывать таймер?",
+  "configOption.fuelinfo.showTimer.desc": "Следует ли отображать таймер здесь.",
+
+  "configGroup.fuelinfo.flame": "Пламя",
+  "configGroup.fuelinfo.flame.desc": "Настройте, какие элементы должны отображаться при наведении на пламя печи.",
+
+  "configGroup.fuelinfo.gauge": "Индикатор",
+  "configGroup.fuelinfo.gauge.desc": "Настройте, какие элементы должны отображаться при наведении на индикатор топлива варочного стенда.",
+
+  "configGroup.fuelinfo.progress_arrow": "Стрелка прогресса",
+  "configGroup.fuelinfo.progress_arrow.desc": "Настройте, какие элементы должны отображаться при наведении на стрелку прогресса."
 }
