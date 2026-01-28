@@ -36,6 +36,6 @@
     "yet_another_config_lib_v3": "*",
     "architectury": ">=13.0.1",
     "fabric-api": "*",
-    "minecraft": ">=1.21.3"
+    "minecraft": ">=1.21.11"
   }
 }

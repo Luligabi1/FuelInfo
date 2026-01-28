@@ -1,12 +1,12 @@
 package me.luligabi.fuelinfo;
 
 import me.luligabi.fuelinfo.config.ModConfig;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class FuelInfo {
 
-	public static ResourceLocation id(String id) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, id);
+	public static Identifier id(String id) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, id);
 	}
 
 	public static final String MOD_ID = "fuelinfo";
