@@ -3,4 +3,88 @@ plugins {
     id 'net.fabricmc.fabric-loom' version '1.15.5' apply false
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
     id 'net.neoforged.moddev' version '2.0.141' apply false
+    id "me.modmuss50.mod-publish-plugin" version "0.5.1"
+}
+
+evaluationDependsOnChildren()
+
+ext.getChangeLog = { ->
+    return "- Update to 26.1.2\n- Architectury API is no longer required."
+}
+
+publishMods {
+    changelog = project.getChangeLog()
+    type = STABLE
+
+    def optionsCurseforge = curseforgeOptions {
+        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        projectId = "489631"
+        projectSlug = "fuel-info"
+        minecraftVersions.add("${minecraft_version}")
+    }
+
+    def optionsModrinth = modrinthOptions {
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        projectId = "J1ueTDcI"
+        minecraftVersions.add("${minecraft_version}")
+    }
+
+
+    curseforge("curseforgeNeoForge") {
+        from optionsCurseforge
+        modLoaders.add("neoforge")
+        file = project(":neoforge").tasks.named("jar", Jar).flatMap { it.archiveFile }
+        displayName = "${project.version} (NeoForge)"
+        version = "${project.version}-neoforge"
+
+        embeds("yacl")
+
+        announcementTitle = "Download from CurseForge (NeoForge)"
+    }
+
+    curseforge("curseforgeFabric") {
+        from optionsCurseforge
+        modLoaders.add("fabric")
+        file = project(":fabric").tasks.named("jar", Jar).flatMap { it.archiveFile }
+        displayName = "${project.version} (Fabric)"
+        version = "${project.version}-fabric"
+
+        requires("fabric-api")
+        embeds("yacl")
+
+        announcementTitle = "Download from CurseForge (Fabric)"
+    }
+
+    modrinth("modrinthNeoForge") {
+        from optionsModrinth
+        modLoaders.add("neoforge")
+        file = project(":neoforge").tasks.named("jar", Jar).flatMap { it.archiveFile }
+        displayName = "${project.version} (NeoForge)"
+        version = "${project.version}-neoforge"
+
+        embeds("yacl")
+
+        announcementTitle = "Download from Modrinth (NeoForge)"
+    }
+
+    modrinth("modrinthFabric") {
+        from optionsModrinth
+        modLoaders.add("fabric")
+        file = project(":fabric").tasks.named("jar", Jar).flatMap { it.archiveFile }
+        displayName = "${project.version} (Fabric)"
+        version = "${project.version}-fabric"
+
+        requires("fabric-api")
+        embeds("yacl")
+
+        announcementTitle = "Download from Modrinth (Fabric)"
+    }
+
+    discord {
+        webhookUrl = providers.environmentVariable("CAFETERIA_MOD_RELEASE_WEBHOOK")
+        username = "${mod_name}"
+        avatarUrl = "${discordAnnouncementIconURL}"
+
+        content = changelog.map { "# " + (mod_name as String) + " " + (project.version as String) + " has been released \n" + it}
+    }
 }

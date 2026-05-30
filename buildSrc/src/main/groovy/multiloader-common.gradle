@@ -4,7 +4,7 @@ plugins {
 }
 
 base {
-    archivesName = "${mod_id}-${project.name}-${minecraft_version}"
+    archivesName = "${mod_id}-${project.name}"
 }
 
 java {
@@ -73,7 +73,8 @@ processResources {
             'credits'                      : credits,
             'java_version'                 : java_version,
             'yacl_version'                 : yacl_version,
-            'modmenu_version'              : modmenu_version
+            'modmenu_version'              : modmenu_version,
+            'discordAnnouncementIconURL'   : discordAnnouncementIconURL
     ]
 
     var jsonExpandProps = expandProps.collectEntries {
