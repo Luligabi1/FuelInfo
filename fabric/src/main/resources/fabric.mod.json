@@ -1,0 +1,44 @@
+{
+    "schemaVersion": 1,
+    "id": "${mod_id}",
+    "version": "${version}",
+    "name": "${mod_name}",
+    "description": "${description}",
+    "authors": [
+        "${mod_author}"
+    ],
+    "contributors": [
+        "EvanHsieh0415",
+        "Rad233",
+        "JonnyBro",
+        "Calvineries"
+    ],
+    "contact": {
+        "homepage": "https://www.curseforge.com/minecraft/mc-mods/fuel-info",
+        "repo": "https://github.com/Luligabi1/FuelInfo",
+        "issues": "https://github.com/Luligabi1/FuelInfo/issues/"
+    },
+    "license": "${license}",
+    "icon": "assets/${mod_id}/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "client": [
+            "me.luligabi.fuelinfo.fabric.FuelInfoFabric"
+        ],
+        "modmenu": [
+            "me.luligabi.fuelinfo.fabric.ConfigScreenEntrypoint"
+        ]
+    },
+    "mixins": [
+        "${mod_id}.mixins.json",
+        "${mod_id}.fabric.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=${fabric_loader_version}",
+        "fabric-api": "*",
+        "minecraft": "~${minecraft_version}",
+        "java": ">=${java_version}",
+        "yet_another_config_lib_v3": "*"
+    }
+}
+  

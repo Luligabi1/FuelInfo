@@ -1,0 +1,11 @@
+{
+  "message.fuelinfo.furnace.items": "§7Dieser Ofen kann §e%d §7Sache(n) verhütte",
+  "message.fuelinfo.furnace.stacks": "§7Dieser Ofen kann §e%d §7Stapel verhütte",
+  "message.fuelinfo.furnace.both": "§7Dieser Ofen kann §e%d §7Stapel und §e%d §7Sache(n) verhütte",
+
+  "message.fuelinfo.brewing_stand": "§7Dieser Braustand kann §e%d §7Tränke brauen",
+  "message.fuelinfo.brewing_stand.set": "§7Dieser Braustand kann §e%d §fSets §7von Tränke brauen",
+
+  "message.fuelinfo.timer": "%s:%s noch",
+  "message.fuelinfo.timer.current": "%s:%s §7noch (Diese Sache)"
+}
