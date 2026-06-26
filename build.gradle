@@ -9,7 +9,7 @@ plugins {
 evaluationDependsOnChildren()
 
 ext.getChangeLog = { ->
-    return "- Update to 26.1.2\n- Architectury API is no longer required."
+    return ""
 }
 
 publishMods {

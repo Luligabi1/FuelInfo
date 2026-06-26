@@ -1,5 +1,6 @@
 package me.luligabi.fuelinfo.hook;
 
+import com.mojang.datafixers.util.Pair;
 import me.luligabi.fuelinfo.FuelInfo;
 import me.luligabi.fuelinfo.mixin.AbstractContainerScreenAccessor;
 import me.luligabi.fuelinfo.mixin.AbstractFurnaceMenuAccessor;
@@ -8,11 +9,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.inventory.AbstractFurnaceMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.RecipeBookType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,18 +109,18 @@ public class AbstractFurnaceMenuHook {
         int time = Math.round((currentStackTime + remainingStacksTime) / tickrate);
 
         boolean isIndividualTime = Minecraft.getInstance().hasShiftDown();
-        Tuple<String, String> timePair = TimerUtil.getTime(isIndividualTime ? Math.round(currentStackTime / tickrate) : time);
+        Pair<String, String> timePair = TimerUtil.getTime(isIndividualTime ? Math.round(currentStackTime / tickrate) : time);
 
         timeText = Component.translatable(
             "message.fuelinfo.timer" + (isIndividualTime ? ".current" : ""),
-            timePair.getA(), timePair.getB()
+            timePair.getFirst(), timePair.getSecond()
         );
         COMPONENTS.add(timeText);
     }
 
     // TODO: Investigate if there's better way to determine this on Neoforge
     private static boolean isSpecialFurnace(AbstractFurnaceMenu menu) {
-        return ((AbstractFurnaceMenuAccessor) menu).getRecipeType() != RecipeType.SMELTING;
+        return menu.getRecipeBookType() != RecipeBookType.FURNACE;
     }
 
 }

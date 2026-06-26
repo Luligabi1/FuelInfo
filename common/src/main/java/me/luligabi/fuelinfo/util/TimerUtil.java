@@ -1,14 +1,14 @@
 package me.luligabi.fuelinfo.util;
 
-import net.minecraft.util.Tuple;
+import com.mojang.datafixers.util.Pair;
 
 public class TimerUtil {
 
-    public static Tuple<String, String> getTime(int time) {
+    public static Pair<String, String> getTime(int time) {
         String minutes = format((time % 3600) / 60);
         String seconds = format(time % 60);
 
-        return new Tuple<>(minutes, seconds);
+        return new Pair<>(minutes, seconds);
     }
 
     public static String format(int time) {
